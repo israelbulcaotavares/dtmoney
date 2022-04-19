@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { Container } from "./styles";
 
-interface Transaction{
-    id:number;
-    title:string;
-    amount:string;
-    type:string;
-    category:string;
-    createdAt:string;
+interface Transaction {
+    id: number;
+    title: string;
+    amount: number;
+    type: string;
+    category: string;
+    createdAt: string;
 }
 
 export function TransactionsTable() {
@@ -33,16 +33,22 @@ export function TransactionsTable() {
                 </thead>
 
                 <tbody>
-                    {transactions.map(transactions =>  (
-                   
-                            <tr key={transactions.id}>
-                                <td>{transactions.title}</td>
-                                <td className={transactions.type}>{transactions.amount}</td>
-                                <td>{transactions.category}</td>
-                                <td>{transactions.createdAt})</td>
-                            </tr>
-                       
-                       ))}
+                    {transactions.map(transactions => (
+                        <tr key={transactions.id}>
+                            <td>{transactions.title}</td>
+                            <td className={transactions.type}>
+                                {new Intl.NumberFormat('pt-BR',{
+                                    style:'currency',
+                                    currency:'BRL'
+                                }).format(transactions.amount)}
+                            </td>
+                            <td>{transactions.category}</td>
+                            <td>{new Intl.DateTimeFormat('pt-BR').format(
+                                new Date(transactions.createdAt))}</td>
+                            
+                        </tr>
+
+                    ))}
 
                 </tbody>
             </table>
